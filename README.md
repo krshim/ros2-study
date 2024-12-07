@@ -12,7 +12,7 @@
 <a id="개발-환경-설정"></a>
 
 ## 1. 개발 환경 설정
-
+------------
 ### 1-1. ubuntu20.04 설치
 + Rufus usb만들기 (https://ckrmsckrmstjdwkdwnd123.tistory.com/5)
 + 데스크탑에 ubuntu설치 (https://ckrmsckrmstjdwkdwnd123.tistory.com/6)
@@ -272,9 +272,150 @@ launch.json 파일에 아래 코드를 작성한다.
 <a id=ROS2-패키지-노드-생성></a>
 
 ## 2. ROS2 패키지 노드 생성
+---
+### 2-1 ROS2 기본 노드 구동하기
+ROS의 기본 노드를 구동하고 각 노드별 Topic의 값이 어떻게 변하는지 확인하는 과정을 진행한다.
++ Turtlesim
 
+turtlesim노드는 ROS2 및 ROS2패키지에 대한 기본적인 이해를 위해 거북이를 움직이는 테스트를 할 수 있도록 만들어진 ROS2 패키지이다. 터미널을 열어'(cntr+shift+T)'Turtlesim_node를 실행한다.
+```
+ros2 run turtlesim turtlesim_node
+```
+Turtlesim 패키지 안에 있는 다양한 node 중 거북이를 움직이는 teleop_node를 실행하기 위해
+새로운 터미널창을 열고 아래 코드를 입력한다.
+```
+ros2 run turtlesim turtle_teleop_key
+```
+해당 명령어를 실행하고 키보드 방향키를 입력하게 되면 거북이가 움직이면서 선을 그리는 것을 볼 수 있다.
+### 2-1 ROS2 노드 생성하기
 
+ROS2의 노드패키지를 생성하는 방법은 'ros2 pkg create' 라는 명령어를 통해 생성을 하며 명령어 입력 규칙은 다음과 같다.
+`ros2 pkg create --build-type aemnt_python [패키지명] --dependencies [의존성1] [의존성2]…`
 
+가장 기본적인 패키지를 만들기 위해 ROS2와 python이 상호작용하게 해주는 'rclpy'(ROS 2용 Python 클라이언트 라이브러리)로 의존성을 지정하고,  패키지명은 'move_turtle_pkg'로 한다.
+```
+cd ~/robot_ws/src
+ros2 pkg create --build-type ament_python move_turtle_pkg  --dependencies rclpy # 패키지가 C++로 작성되었다면 'ament_python'이 아닌 'ament_cmake'가 사용된다.
+```
+완료된 후 패키지 안에 있는 'package.xml'파일에서 exec_depend태그에 내가 지정한 의존성(rclpy)이 들어가있는지 확인하고 없다면 다음과 같이 추가한다.
+```
+cd ~/robot_ws/src/move_turtle_pkg
+ls # 현재 경로의 파일(디렉토리) 리스트
+code package.xml
+```
+package.xml 파일 안에 아래 코드를 작성한다.
+<exec_depend>rclpy</exec_depend>'
 
++ ROS2 Publisher Node 제작
 
+ros2_publisher라는 이름으로 .py파일을 생성하고 아래 코드를 입력한다
+```
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+from rclpy.qos import QoSProfile
 
+class M_pub(Node):
+    def __init__(self):
+        super().__init__('ros2_publisher_node')
+        self.qos_profile = QoSProfile(depth=10)
+        self.massage_publisher = self.create_publisher(
+            String, 'nearthlab', self.qos_profile)
+        self.timer = self.create_timer(1, self.m_publisher)
+        self.count = 0
+
+    def m_publisher(self):
+        msg = String()
+        msg.data = f'i want to go to nearthlab {self.count}'
+        self.massage_publisher.publish(msg)
+        self.get_logger().info(f'Published message: {msg.data}')
+        self.count += 1
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = M_pub()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        node.get_logger().info('Keyboard interrupt!!!!')
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+위에서 제작한 노드와 통신할 수 있는 ros2_subscirber.py도 생성하여 아래 코드를 입력한다.
+```
+import rclpy
+from rclpy.node import Node
+from rclpy.qos import QoSProfile
+from std_msgs.msg import String
+
+class HelloworldSubscriber(Node):
+    def __init__(self):
+        super().__init__('ros2_subscriber_node')
+        qos_profile = QoSProfile(depth=10)
+        self.helloworld_subscriber = self.create_subscription(
+            String,
+            'nearthlab',
+            self.subscribe_topic_message,
+            qos_profile)
+
+    def subscribe_topic_message(self, msg):
+        print(msg)
+        self.get_logger().info(f'Received message: {msg.data}')
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = HelloworldSubscriber()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        node.get_logger().info('Keyboard Interrupt')
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+제작한 노드를 사용할 수 있도록 'setup.py' 파일의 'entry_points'를 수정해야한다.
+'entry_points'의 'console_scripts' 부분을 아래의 형식으로 수정한다.
+'console_scripts': [ '노드명 = 패키지명.파이썬파일:main' ]
+아래 내용은 방금 제작한 두개의 노드를 'setup.py'에 입력하는 과정이다.
+
+```
+cd ~/robot_ws/src/move_turtle_pkg
+code setup.py
+```
+'setup.py'를 아래 코드와 같이 수정한다.
+```
+entry_points={
+        'console_scripts': [
+            'ros2_publisher_node = move_turtle_pkg.ros2_publisher:main',
+            'ros2_subscriber_node = move_turtle_pkg.ros2_subscriber:main'
+        ],
+    },
+```
+
+이 작업을 완료한 후 'colcon build --package-select [패키지명] 으로 패키지를 빌드해준 후 두 개의 터미널 창에서 노드를 각각 실행시키면 작동이 된다. 패키지를 빌드하고, 노드를 실헹하는 방식은 아래와 같다.
+```
+colcon build --package-select move_turtle_pkg # 제작한 패키지 빌드
+source install/setup.bash # 현재 워크스페이스의 빌드 결과물을 ROS 2 환경에 추가
+ros2 run move_turtle_pkg ros2_publisher_node # publisher_node 실행
+```
+
+새로운 터미널 열어서 아래 코드 입력
+```
+ros2 run move_turtle_pkg ros2_subscriber_node # subscriber_node 실행
+```
+새로운 터미널 열어서 아래 코드 입력
+```
+ros2 topic list # 지정한 topic이 발행 되는지 확인
+```
+새로운 터미널 열어서 아래 코드 입력
+```
+rqt_graph
+```

@@ -5,16 +5,16 @@ from rclpy.qos import QoSProfile
 
 class M_pub(Node):
     def __init__(self):
-        super().__init__('ros2_publisher_node')  
+        super().__init__('ros2_publisher_node')
         self.qos_profile = QoSProfile(depth=10)
         self.massage_publisher = self.create_publisher(
-            String, 'hspub', self.qos_profile)  
+            String, 'nearthlab', self.qos_profile)
         self.timer = self.create_timer(1, self.m_publisher)
         self.count = 0
 
     def m_publisher(self):
         msg = String()
-        msg.data = f'hello hs {self.count}'
+        msg.data = f'i want to go to nearthlab {self.count}'
         self.massage_publisher.publish(msg)
         self.get_logger().info(f'Published message: {msg.data}')
         self.count += 1
