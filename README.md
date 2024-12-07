@@ -4,11 +4,13 @@
 <details open="open">
   <summary>목차</summary>
   <ol>
-    <li><a href="#1.-개발-환경-설정">개발 환경 설정</a></li>
+    <li><a href="#개발-환경-설정">개발 환경 설정</a></li>
+    <li><a href="#ROS2-패키지-노드-생성">ROS2 패키지 노드 생성</a></li>
   </ol>
 </details>
 
 ## 1. 개발 환경 설정
+<a id="개발-환경-설정"></a>
 
 ### 1-1. ubuntu20.04 설치
 + Rufus usb만들기 (https://ckrmsckrmstjdwkdwnd123.tistory.com/5)
@@ -266,6 +268,8 @@ launch.json 파일에 아래 코드를 작성한다.
   ]
 }
 ```
+## 2. ROS2 패키지 노드 생성
+<a id=ROS2-패키지-노드-생성></a>
 
 
 
