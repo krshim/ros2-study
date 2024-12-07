@@ -2,11 +2,10 @@
 #### (따라하기 쉽게 작성하는 것을 목표로 하였습니다. Linux와 ROS에 대한 기초지식이 있으면 좋습니다.)
 
 <details open="open">
-<summary>목차</summary>
-<ol>
-<
-<li><a href="#1.-개발-환경-설정">개발 환경 설정</a></li>
-</ol>
+  <summary>목차</summary>
+  <ol>
+    <li><a href="#1.-개발-환경-설정">개발 환경 설정</a></li>
+  </ol>
 </details>
 
 ## 1. 개발 환경 설정
