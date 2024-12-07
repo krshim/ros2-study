@@ -174,6 +174,7 @@ c_cpp_properties.json 파일에 아래 코드를 작성한다.
 }
 ```
 + Task 설정
+
 Task는 vsCode에서는 외부 프로그램을 Command Line Interface (CLI) 을 통해 연동하게 하는 기능이다.
 아래의 내용은 ROS 2에서 빌드할 때 사용되는 colcon과 관려한 build, test, clean 작업을 Task로 만들었다. 이를 통해 VScode에서 `Ctrl + Shift + b`로 빌드할 수 있고 아래와 같이 기본 설정 이외의 Task도 실행할 수 있다.
 `Ctrl + Shift + p` > Tasks: Run Task > 지정한 Task 선택
@@ -211,6 +212,7 @@ tasks.json 파일에 아래 코드를 작성한다.
 }
 ```
 + Launch 설정
+
 VSCode에서의 Launch는 'Run and Debug' (Ctrl + Shift + d)에서 사용되는 실행 명령어로 언어별, 디버거별로 설정이 가능하고 세부 옵션으로 Launch가 실행되기 전 사용할 Task를 지정하거나 콘솔 기능을 설정할 수도 있다. 아래 코드는 ROS 2에서 많이 사용되는 Python과 C++ 언어에 맞추어 VSCode의 디버깅 툴을 지정하였다.
 ```
 cd ~/robot_ws/.vscode
