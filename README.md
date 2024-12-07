@@ -384,7 +384,7 @@ if __name__ == '__main__':
 제작한 노드를 사용할 수 있도록 'setup.py' 파일의 'entry_points'를 수정해야한다.
 'entry_points'의 'console_scripts' 부분을 아래의 형식으로 수정한다.
 'console_scripts': [ '노드명 = 패키지명.파이썬파일:main' ]
-아래 내용은 방금 제작한 두개의 노드를 'setup.py'에 입력하는 과정이다.
+아래 내용은 방금 제작한 두개의 노드를 'setup.py'에 입력하는 과정이다
 
 ```
 cd ~/robot_ws/src/move_turtle_pkg
