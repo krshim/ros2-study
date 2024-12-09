@@ -1,5 +1,5 @@
-# Ubuntu20.04 / ROS2-FOXY
-#### (따라하기 쉽게 작성하는 것을 목표로 하였습니다. Linux와 ROS에 대한 기초지식이 있으면 좋습니다.)
+# Ubuntu20.04 / ROS2-Foxy
+#### (따라하기 쉽게 작성하는 것을 목표로 하였습니다. Linux와 ROS에 대한 기초지식이 있어야 합니다.)
 
 <details open="open">
   <summary>목차</summary>
