@@ -1,4 +1,4 @@
-# ROS2 Autonomous Driving with Turtlebot3
+# Ubuntu20.04 / ROS2-FOXY
 #### (따라하기 쉽게 작성하는 것을 목표로 하였습니다. Linux와 ROS에 대한 기초지식이 있으면 좋습니다.)
 
 <details open="open">
@@ -93,7 +93,7 @@ source /opt/ros/foxy/setup.bash
 ```
 터미널을 새로 열 때마다 환경설정을 해주기 귀찮다면 ```vi```, ```vim```,```nano```, ```gedit``` 중 원하는 텍스트 편집기를 사용하여 ```.bashrc``` 파일을 수정해주어야 한다. (```vi```, ```vim```은 TUI, GUI, CLI 환경 모두에서 사용이 가능하고 ```gedit```은 GUI환경에서만 사용이 가능하다.)
 ```
-gedit ~/.bashrc # ~(틸드)은 현재 사용자의 홈 디렉토리를 나타낸다.
+gedit ~/.bashrc # ~(틸드)은 현재 사용자의 홈을 나타낸다.
 ```
 .bashrc 파일의 맨 밑 줄에 ```source /opt/ros/foxy/setup.bash```를 추가하고 ctrl+S(저장)를 해주게 되면 터미널을 새로 열거나 창을 분할할 때마다 ros2 환경설정이 적용된다. 이후로는 모두 환경설정이 되었다는 가정하에 진행하겠다.
 
@@ -300,7 +300,7 @@ ros2 pkg create --build-type ament_python move_turtle_pkg  --dependencies rclpy 
 완료된 후 패키지 안에 있는 'package.xml'파일에서 exec_depend태그에 내가 지정한 의존성(rclpy)이 들어가있는지 확인하고 없다면 다음과 같이 추가한다.
 ```
 cd ~/robot_ws/src/move_turtle_pkg
-ls # 현재 경로의 파일(디렉토리) 리스트
+ls # 현재 경로의 폴더, 파일 리스트
 code package.xml
 ```
 package.xml 파일 안에 아래 코드를 작성한다.
@@ -417,5 +417,5 @@ ros2 topic list # 지정한 topic이 발행 되는지 확인
 ```
 새로운 터미널 열어서 아래 코드 입력
 ```
-rqt_graph
+rqt_graph # 노드 간 통신을 확인하기 위한 시각화 도구
 ```
