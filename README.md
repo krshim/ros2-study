@@ -403,7 +403,7 @@ entry_points={
 이 작업을 완료한 후 'colcon build --package-select [패키지명]` 으로 패키지를 빌드해준 후 두 개의 터미널 창에서 노드를 각각 실행시키면 작동이 된다. 패키지를 빌드하고, 노드를 실헹하는 방식은 아래와 같다.
 ```
 colcon build --package-select move_turtle_pkg # 제작한 패키지 빌드
-source install/setup.bash # 현재 워크스페이스의 빌드 결과물을 ROS 2 환경에 추가
+source install/setup.bash # 현재 워크스페이스의 빌드 결과물을 ROS2 환경에 추가
 ros2 run move_turtle_pkg ros2_publisher_node # publisher_node 실행
 ```
 
